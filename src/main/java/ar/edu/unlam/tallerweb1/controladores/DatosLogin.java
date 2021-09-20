@@ -5,7 +5,7 @@ public class DatosLogin {
     private String password;
 
     public String getEmail() {
-        retur email;
+        return email;
     }
 
     public void setEmail(String email) {
