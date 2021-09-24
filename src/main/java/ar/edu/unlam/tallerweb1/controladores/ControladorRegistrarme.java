@@ -24,4 +24,8 @@ public class ControladorRegistrarme {
     private boolean validarEmail(String email) {
         return email.endsWith(".com") && email.contains("@");
     }
+
+    public ModelAndView irARegistrarme(){
+        return new ModelAndView("registro-usuario");
+    }
 }
