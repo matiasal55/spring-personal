@@ -16,7 +16,7 @@ public class CalendarioControllerTest {
     private final CalendarioServicio servicioCalendario=mock(CalendarioServicio.class);
     private final CalendarioController controladorCalendario=new CalendarioController(servicioCalendario);
     private final String PROFESION="Cardiologia";
-    private Calendario calendario =new Calendario();
+    private final Calendario CALENDARIO =new Calendario();
 
     @Test
     public void verPaginaDeInicio(){
@@ -32,9 +32,9 @@ public class CalendarioControllerTest {
     }
 
     private void givenSolicitoLosCalendarios() {
-        calendario.setProfesion(PROFESION);
+        CALENDARIO.setProfesion(PROFESION);
         ArrayList<Calendario> listaCalendarios=new ArrayList<>();
-        listaCalendarios.add(calendario);
+        listaCalendarios.add(CALENDARIO);
         when(servicioCalendario.obtenerCalendarios()).thenReturn(listaCalendarios);
     }
 
@@ -52,8 +52,8 @@ public class CalendarioControllerTest {
     }
 
     private void givenSolicitoUnSoloCalendario() {
-        calendario.setProfesion(PROFESION);
-        when(servicioCalendario.obtenerUnCalendarioEspecifico(PROFESION)).thenReturn(calendario);
+        CALENDARIO.setProfesion(PROFESION);
+        when(servicioCalendario.obtenerUnCalendarioEspecifico(PROFESION)).thenReturn(CALENDARIO);
     }
 
     private ModelAndView whenIngresoAlInicio() {
@@ -70,9 +70,9 @@ public class CalendarioControllerTest {
 
     private void thenVeoTodosLosCalendarios(ModelAndView mav) {
         assertThat(mav.getViewName()).isEqualTo("calendarios");
-        calendario.setProfesion(PROFESION);
+        CALENDARIO.setProfesion(PROFESION);
         ArrayList<Calendario> profesiones= (ArrayList<Calendario>) mav.getModel().get("calendarios");
-        assertThat(profesiones).contains(calendario);
+        assertThat(profesiones).contains(CALENDARIO);
     }
 
     private void thenVerificarQueSeRecibe(ModelAndView mav) {
@@ -86,6 +86,6 @@ public class CalendarioControllerTest {
     private void thenSeMuestraElCalendarioEspecifico(ModelAndView mav) {
         assertThat(mav.getViewName()).isEqualTo("calendarios");
         assertThat(mav.getModel().get("titulo")).isEqualTo(PROFESION);
-        assertThat(mav.getModel().get("calendario")).isEqualTo(calendario);
+        assertThat(mav.getModel().get("calendario")).isEqualTo(CALENDARIO);
     }
 }

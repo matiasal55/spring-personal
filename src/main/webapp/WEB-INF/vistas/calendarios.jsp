@@ -35,8 +35,8 @@
         <form method="POST" action="calendarios">
             <select name="profesion" class="form-select">
                 <option selected disabled value="0">Elija una opción</option>
-                <c:forEach items="${profesiones}" var="profesion">
-                    <option value="${profesion}">${profesion}</option>
+                <c:forEach items="${cAalendarios}" var="calendar">
+                    <option value="${calendar.profesion}">${calendar.profesion}</option>
                 </c:forEach>
             </select>
             <button type="submit" class="btn btn-primary mt-3">Aplicar filtro</button>
