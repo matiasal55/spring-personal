@@ -1,16 +1,23 @@
 package ar.edu.unlam.tallerweb1.controladores;
 
-import org.dom4j.rule.Mode;
+import ar.edu.unlam.tallerweb1.modelo.Calendario;
+import ar.edu.unlam.tallerweb1.servicios.CalendarioServicio;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
 @Controller
 public class CalendarioController {
+    private CalendarioServicio servicioCalendario;
+
+    @Autowired
+    public CalendarioController(CalendarioServicio servicioCalendario){
+        this.servicioCalendario=servicioCalendario;
+    }
 
     @RequestMapping(path = "/", method = RequestMethod.GET)
     public ModelAndView inicio() {
@@ -26,10 +33,8 @@ public class CalendarioController {
     public ModelAndView verTodosLosCalendarios() {
         ModelMap model=new ModelMap();
         String titulo="Todos";
-        ArrayList<String> profesiones=new ArrayList<>();
-        profesiones.add("Cardiologia");
-        profesiones.add("Odontologia");
-        model.put("profesiones",profesiones);
+        ArrayList<Calendario> calendarios=servicioCalendario.obtenerCalendarios();
+        model.put("calendarios",calendarios);
         model.put("titulo", titulo);
         return new ModelAndView("calendarios", model);
     }
@@ -38,10 +43,8 @@ public class CalendarioController {
     public ModelAndView recibirUnaProfesion(@RequestParam(required = false) String profesion) {
         ModelMap model=new ModelMap();
         String titulo = profesion;
-        ArrayList<String> profesiones = new ArrayList<>();
-        profesiones.add("Cardiologia");
-        profesiones.add("Odontologia");
-        model.put("profesiones", profesiones);
+        Calendario calendario=servicioCalendario.obtenerUnCalendarioEspecifico(profesion);
+        model.put("calendario", calendario);
         model.put("titulo", titulo);
         return new ModelAndView("calendarios", model);
     }
