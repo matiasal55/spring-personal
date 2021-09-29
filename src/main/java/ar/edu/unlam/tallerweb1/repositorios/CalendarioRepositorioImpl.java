@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
-import java.util.List;
 
 @Repository("calendarioRepositorio")
 public class CalendarioRepositorioImpl implements CalendarioRepositorio{
@@ -21,13 +20,15 @@ public class CalendarioRepositorioImpl implements CalendarioRepositorio{
 
     @Override
     public ArrayList<Calendario> todosLosCalendarios() {
-        final Session session=sessionFactory.getCurrentSession();
-        return (ArrayList<Calendario>) session.createCriteria(Calendario.class).list();
+        return (ArrayList<Calendario>) getCurrentSession().createCriteria(Calendario.class).list();
     }
 
     @Override
     public Calendario unCalendarioEspecifico(String profesion) {
-        final Session session=sessionFactory.getCurrentSession();
-        return (Calendario) session.createCriteria(Calendario.class).add(Restrictions.eq("profesion",profesion)).uniqueResult();
+        return (Calendario) getCurrentSession().createCriteria(Calendario.class).add(Restrictions.eq("profesion",profesion)).uniqueResult();
+    }
+
+    private Session getCurrentSession() {
+        return sessionFactory.getCurrentSession();
     }
 }
