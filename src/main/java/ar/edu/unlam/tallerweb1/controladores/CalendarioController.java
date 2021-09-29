@@ -40,12 +40,17 @@ public class CalendarioController {
     }
 
     @RequestMapping(path = "/calendarios", method = RequestMethod.POST)
-    public ModelAndView recibirUnaProfesion(@RequestParam(required = false) String profesion) {
-        ModelMap model=new ModelMap();
-        String titulo = profesion;
-        Calendario calendario=servicioCalendario.obtenerUnCalendarioEspecifico(profesion);
-        model.put("calendario", calendario);
-        model.put("titulo", titulo);
-        return new ModelAndView("calendarios", model);
+    public ModelAndView recibirUnaProfesion(@RequestParam(required = false) String profesion) throws Exception {
+        try {
+            ModelMap model=new ModelMap();
+            String titulo = profesion;
+            Calendario calendario=servicioCalendario.obtenerUnCalendarioEspecifico(profesion);
+            model.put("calendario", calendario);
+            model.put("titulo", titulo);
+            return new ModelAndView("calendarios", model);
+        } catch (Exception e) {
+            return new ModelAndView("error");
+        }
+
     }
 }

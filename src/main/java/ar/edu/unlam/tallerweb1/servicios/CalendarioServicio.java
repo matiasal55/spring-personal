@@ -7,5 +7,5 @@ import java.util.ArrayList;
 public interface CalendarioServicio {
     ArrayList<Calendario> obtenerCalendarios();
 
-    Calendario obtenerUnCalendarioEspecifico(String profesion);
+    Calendario obtenerUnCalendarioEspecifico(String profesion) throws Exception;
 }

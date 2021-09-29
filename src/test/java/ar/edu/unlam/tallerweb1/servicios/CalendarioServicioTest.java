@@ -2,6 +2,7 @@ package ar.edu.unlam.tallerweb1.servicios;
 
 import ar.edu.unlam.tallerweb1.modelo.Calendario;
 import ar.edu.unlam.tallerweb1.repositorios.CalendarioRepositorio;
+import org.hibernate.JDBCException;
 import org.junit.Test;
 import static org.assertj.core.api.Assertions.*;
 
@@ -27,6 +28,21 @@ public class CalendarioServicioTest {
         givenSolicitoUnCalendarioEspecifico();
         Calendario calendarioTest=whenHagoLaSolicitudDeUnSoloCalendario();
         thenDeberiaCorresponderAlCalendarioElegido(calendarioTest);
+    }
+
+    @Test(expected = Exception.class)
+    public void errorDeConexionALaBaseDeDatos(){
+        givenOcurreUnProblemaDeConexionALaBD();
+        Calendario calendarioTest=whenHagoLaSolicitudDeUnSoloCalendario();
+        thenApareceriaLaExcepcion(calendarioTest);
+    }
+
+    private void thenApareceriaLaExcepcion(Calendario calendarioTest) {
+        verify(repositorioCalendario, never()).unCalendarioEspecifico(PROFESION);
+    }
+
+    private void givenOcurreUnProblemaDeConexionALaBD() {
+        when(repositorioCalendario.unCalendarioEspecifico(PROFESION)).thenThrow(Exception.class);
     }
 
     private void givenSolicitoUnCalendarioEspecifico() {

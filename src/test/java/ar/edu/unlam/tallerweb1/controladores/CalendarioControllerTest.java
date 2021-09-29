@@ -39,19 +39,34 @@ public class CalendarioControllerTest {
     }
 
     @Test
-    public void recibirUnaProfesion(){
+    public void recibirUnaProfesion() throws Exception{
         mav=whenRecibeUnaProfesion(PROFESION);
         thenVerificarQueSeRecibe(mav);
     }
 
     @Test
-    public void verUnCalendarioDeUnaProfesionEspecifica(){
+    public void verUnCalendarioDeUnaProfesionEspecifica() throws Exception{
         givenSolicitoUnSoloCalendario();
         mav= whenRecibeUnaProfesion(PROFESION);
         thenSeMuestraElCalendarioEspecifico(mav);
     }
 
-    private void givenSolicitoUnSoloCalendario() {
+    @Test
+    public void errorDeConexionALaBD() throws Exception{
+        givenOcurreUnErrorEnLaBD();
+        mav=whenRecibeUnaProfesion(PROFESION);
+        thenOcurreElErrorEnLaBD(mav);
+    }
+
+    private void thenOcurreElErrorEnLaBD(ModelAndView mav) {
+        assertThat(mav.getViewName()).isEqualTo("error");
+    }
+
+    private void givenOcurreUnErrorEnLaBD() throws Exception {
+        when(servicioCalendario.obtenerUnCalendarioEspecifico(PROFESION)).thenThrow(Exception.class);
+    }
+
+    private void givenSolicitoUnSoloCalendario() throws Exception{
         CALENDARIO.setProfesion(PROFESION);
         when(servicioCalendario.obtenerUnCalendarioEspecifico(PROFESION)).thenReturn(CALENDARIO);
     }
@@ -79,7 +94,7 @@ public class CalendarioControllerTest {
         assertThat(mav.getModel().get("titulo")).isEqualTo(PROFESION);
     }
 
-    private ModelAndView whenRecibeUnaProfesion(String profesion) {
+    private ModelAndView whenRecibeUnaProfesion(String profesion) throws Exception {
         return controladorCalendario.recibirUnaProfesion(profesion);
     }
 

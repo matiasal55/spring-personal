@@ -24,7 +24,9 @@ public class CalendarioServicioImpl implements  CalendarioServicio{
     }
 
     @Override
-    public Calendario obtenerUnCalendarioEspecifico(String profesion) {
-        return repositorioCalendario.unCalendarioEspecifico(profesion);
+    public Calendario obtenerUnCalendarioEspecifico(String profesion) throws Exception {
+        Calendario calendario=repositorioCalendario.unCalendarioEspecifico(profesion);
+        if(calendario == null) throw new Exception();
+        return calendario;
     }
 }
