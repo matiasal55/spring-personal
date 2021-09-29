@@ -20,12 +20,11 @@ public class CalendarioServicioImpl implements  CalendarioServicio{
 
     @Override
     public ArrayList<Calendario> obtenerCalendarios() {
-        ArrayList<Calendario> calendarios=repositorioCalendario.todosLosCalendarios();
-        return calendarios;
+        return repositorioCalendario.todosLosCalendarios();
     }
 
     @Override
-    public Calendario obtenerUnCalendarioEspecifico(String PROFESION) {
-        return null;
+    public Calendario obtenerUnCalendarioEspecifico(String profesion) {
+        return repositorioCalendario.unCalendarioEspecifico(profesion);
     }
 }
