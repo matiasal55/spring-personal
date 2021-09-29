@@ -26,6 +26,24 @@ public class CalendarioRepositorioTest extends SpringTest {
         thenDeberiaTenerTodosLosCalendarios(calendariosTest);
     }
 
+    @Rollback
+    @Transactional
+    @Test
+    public void solicitoUnCalendarioEspecifico(){
+        giverListaDeCalendarios();
+        String profesion="Cardiologia";
+        Calendario calendario=whenSolicitoUnsoloCalendario(profesion);
+        thenDeberiaRetornarElCalendarioSolicitado(calendario, profesion);
+    }
+
+    private void thenDeberiaRetornarElCalendarioSolicitado(Calendario calendario, String profesion) {
+        assertThat(calendario.getProfesion()).isEqualTo(profesion);
+    }
+
+    private Calendario whenSolicitoUnsoloCalendario(String profesion) {
+        return repositorioCalendario.unCalendarioEspecifico(profesion);
+    }
+
     private void giverListaDeCalendarios() {
         cardiologia.setProfesion("Cardiologia");
         odontologia.setProfesion("Odontologia");
