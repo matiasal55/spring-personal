@@ -38,7 +38,7 @@ public class CalendarioServicioTest {
     }
 
     private void thenApareceriaLaExcepcion(Calendario calendarioTest) {
-        verify(repositorioCalendario, never()).unCalendarioEspecifico(PROFESION);
+        verify(repositorioCalendario, times(1)).unCalendarioEspecifico(PROFESION);
     }
 
     private void givenOcurreUnProblemaDeConexionALaBD() {
