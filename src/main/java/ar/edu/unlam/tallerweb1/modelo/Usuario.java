@@ -5,6 +5,8 @@ import org.hibernate.annotations.Cascade;
 import javax.persistence.*;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import java.util.LinkedList;
+import java.util.List;
 
 // Clase que modela el concepto de Usuario, la anotacion @Entity le avisa a hibernate que esta clase es persistible
 // el paquete ar.edu.unlam.tallerweb1.modelo esta indicado en el archivo hibernateCOntext.xml para que hibernate
@@ -24,6 +26,25 @@ public class Usuario {
 	private Boolean activo = false;
 	@OneToOne(cascade = CascadeType.ALL)
 	private Cuenta cuenta;
+
+	@OneToMany
+	@Cascade(value= org.hibernate.annotations.CascadeType.ALL)
+	private List<Multa> multas=new LinkedList<>();
+
+	public List<Multa> getMultas() {
+		return multas;
+	}
+
+	public void setMultas(List<Multa> multas) {
+		this.multas = multas;
+	}
+
+	public Usuario(String email, String password) {
+		this.email=email;
+		this.password=password;
+	}
+
+	public Usuario(){}
 
 	public Cuenta getCuenta() {
 		return cuenta;
@@ -71,4 +92,9 @@ public class Usuario {
     public void activar() {
 		activo = true;
     }
+
+    public void agregarMulta(Multa multa){
+		this.multas.add(multa);
+
+	}
 }
